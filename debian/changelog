@@ -1,0 +1,11 @@
+libxml2 (2.9.12.1-deepin) UNRELEASED; urgency=medium
+
+  * update
+
+ -- Deepin Developer <deepin-dev@deepin.org>  Wed, 10 Aug 2022 22:19:39 +0800
+
+libxml2 (2.9.12.1-deepin) stable; urgency=medium
+
+  * ['Autobuild release-candidate']
+
+ -- Deepin Packages Builder <packages@deepin.org>  Wed, 10 Aug 2022 16:40:22 +0800
