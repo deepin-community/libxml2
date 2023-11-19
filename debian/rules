@@ -49,10 +49,9 @@ override_dh_auto_build-indep:
 override_dh_auto_test-indep:
 	: Skipping tests during indep build
 
-override_dh_auto_clean:
+execute_after_dh_auto_clean:
 	rm -rf builddir
 	rm -f doconfigure-*
-	dh_auto_clean
 
 doinstall-main:
 	dh_auto_install --builddirectory=builddir/main
@@ -87,7 +86,7 @@ override_dh_makeshlibs:
 #  otherwise dh may invoke them in a order that is not appropriate for the
 #  build system (the -indep part is done in-tree because rebuilding the
 #  docs out of tree is not supported.  And once an in-tree build is done no
-#  out-of-tree builds can't be done, so we wouldn't be able to do the -arch
+#  out-of-tree builds can be done, so we wouldn't be able to do the -arch
 #  builds after the -indep one).
 clean build-arch binary-arch build-indep binary-indep:
 	dh $@
