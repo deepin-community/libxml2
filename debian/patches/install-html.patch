@@ -7,7 +7,7 @@ Forwarded: no
 
 --- a/doc/Makefile.am
 +++ b/doc/Makefile.am
-@@ -337,9 +337,55 @@
+@@ -334,9 +334,55 @@
  
  rebuild: api docs
  
