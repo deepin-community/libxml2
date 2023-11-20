@@ -1,13 +1,10 @@
 install-html.patch
-refactor-docdir.patch
-install-examples-in-examples.patch
 xml2-config-fix.patch
 python3-unicode-errors.patch
-
-# from upstream
-upstream/85b1792e37b131e7a51af98a37f92472e8de5f3f.patch
-upstream/13ad8736d294536da4cbcd70a96b0a2fbf47070c.patch
-upstream/3e1aad4fe584747fd7d17cc7b2863a78e2d21a77.patch
-upstream/92d9ab4c28842a09ca2b76d3ff2f933e01b6cd6f.patch
-upstream/ec6e3efb06d7b15cf5a2328fabd3845acea4c815.patch
-upstream/dea91c97debeac7c1aaf9c19f79029809e23a353.patch
+CVE-2022-40303-Fix-integer-overflows-with-XML_PARSE_.patch
+CVE-2022-40304-Fix-dict-corruption-caused-by-entity-.patch
+schemas-Fix-null-pointer-deref-in-xmlSchemaCheckCOSS.patch
+CVE-2023-28484-Fix-null-deref-in-xmlSchemaFixupCompl.patch
+CVE-2023-29469-Hashing-of-empty-dict-strings-isn-t-d.patch
+Reset-nsNr-in-xmlCtxtReset.patch
+Also-reset-nsNr-in-htmlCtxtReset.patch
