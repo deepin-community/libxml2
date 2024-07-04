@@ -17,19 +17,28 @@ include /usr/share/dpkg/architecture.mk
 
 TARGETS := main $(PY3VERS)
 
-CONFIGURE_FLAGS := --with-history --cache-file="$(CURDIR)/builddir/config.cache"
+CONFIGURE_FLAGS := --with-history \
+		   --with-legacy \
+		   --with-ftp \
+		   --with-xptr-loc
 
 override_dh_auto_configure-arch: $(TARGETS:%=doconfigure-%)
 
 override_dh_auto_configure-indep:
-	dh_auto_configure -- --docdir \$${prefix}/share/doc/libxml2 --enable-rebuild-docs --without-python
+	dh_auto_configure -- --docdir \$${prefix}/share/doc/libxml2 --enable-rebuild-docs --with-python=no
 
 doconfigure-%:
-	dh_auto_configure --builddirectory=builddir/$(*) -- $(CONFIGURE_FLAGS)
+	export PYTHON=$(PYTHON) && dh_auto_configure --builddirectory=builddir/$(*) -- $(CONFIGURE_FLAGS) && unset PYTHON
 	touch $@
 
-doconfigure-main: CONFIGURE_FLAGS += --without-python --with-icu
-doconfigure-python%: CONFIGURE_FLAGS += --with-python=/usr/bin/$(*) --with-python-install-dir=/usr/lib/$(*)/dist-packages
+ifeq (,$(filter noi18n,$(DEB_BUILD_PROFILES)))
+doconfigure-main: CONFIGURE_FLAGS += --with-python=no --with-icu
+else
+doconfigure-main: CONFIGURE_FLAGS += --with-python=no
+endif
+doconfigure-python%: CONFIGURE_FLAGS += --with-python
+	#PYTHON_VERSION=$(subst python,,$(*))
+	PYTHON=$(shell which $(*))
 
 dobuild-%: BUILD_DIR=builddir/$(*)
 dobuild-%: doconfigure-%
@@ -59,10 +68,7 @@ doinstall-main:
 
 override_dh_auto_install-arch: $(TARGETS:%=doinstall-%)
 	find debian/tmp -name *.la -delete
-
-override_dh_auto_install-indep:
-	dh_auto_install -i
-	rm -v debian/tmp/usr/share/doc/libxml2/Copyright
+	rm -r debian/tmp/usr/lib/python*/site-packages/__pycache__
 
 doinstall-python%:
 	dh_auto_install --builddirectory=builddir/main/python$(*)
@@ -81,7 +87,6 @@ override_dh_makeshlibs:
 	dh_makeshlibs -plibxml2 -V 'libxml2 (>= 2.9.11)' -- -c4
 	dh_makeshlibs --remaining-packages
 
-
 #  I need to specify all the targets (build, binary, clean, etc) as
 #  otherwise dh may invoke them in a order that is not appropriate for the
 #  build system (the -indep part is done in-tree because rebuilding the
@@ -93,3 +98,7 @@ clean build-arch binary-arch build-indep binary-indep:
 
 build: build-arch build-indep
 binary: binary-arch binary-indep
+
+dfsg-source-tree:
+	rm -rf test/
+	rm -rf result/

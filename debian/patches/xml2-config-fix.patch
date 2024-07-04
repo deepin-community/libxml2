@@ -5,9 +5,11 @@ Author: Mattia Rizzolo <mattia@debian.org>
 Last-Update: 2020-02-23
 Bug-Debian: https://bugs.debian.org/952115
 
---- a/xml2-config.in
-+++ b/xml2-config.in
-@@ -16,8 +16,7 @@
+Index: libxml2/xml2-config.in
+===================================================================
+--- libxml2.orig/xml2-config.in
++++ libxml2/xml2-config.in
+@@ -16,8 +16,7 @@ Known values for OPTION are:
  
    --prefix=DIR		change libxml prefix [default $prefix]
    --exec-prefix=DIR	change libxml exec prefix [default $exec_prefix]
@@ -17,22 +19,20 @@ Bug-Debian: https://bugs.debian.org/952115
    --cflags		print pre-processor and compiler flags
    --modules		module support enabled
    --help		display this help and exit
-@@ -82,18 +81,7 @@
+@@ -82,16 +81,7 @@ while test $# -gt 0; do
         	;;
  
      --libs)
 -        if [ "$2" = "--dynamic" ]; then
 -            shift
--            libs="@XML_LIBS@"
+-            libs="@XML_LIBS@ @XML_PRIVATE_LIBS_NO_SHARED@"
 -        else
--            libs="@XML_LIBS@ @XML_PRIVATE_LIBS@ @MODULE_PLATFORM_LIBS@"
+-            libs="@XML_LIBS@ @XML_PRIVATE_LIBS@ @MODULE_PLATFORM_LIBS@ @LIBS@"
 -        fi
 -
 -        if [ "@XML_LIBDIR@" != "-L/usr/lib" -a "@XML_LIBDIR@" != "-L/usr/lib64" ]; then
 -            libs="@XML_LIBDIR@ $libs"
 -        fi
--
--        libs="$libs @WIN32_EXTRA_LIBADD@"
 +        libs="@XML_LIBS@"
          ;;
  
