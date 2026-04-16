@@ -17,19 +17,31 @@ include /usr/share/dpkg/architecture.mk
 
 TARGETS := main $(PY3VERS)
 
-CONFIGURE_FLAGS := --with-history --cache-file="$(CURDIR)/builddir/config.cache"
+CONFIGURE_FLAGS := --with-history \
+		   --with-legacy \
+		   --with-ftp \
+		   --with-xptr-loc \
+		   --with-http \
+		   --with-lzma \
+		   --with-docs \
 
 override_dh_auto_configure-arch: $(TARGETS:%=doconfigure-%)
 
 override_dh_auto_configure-indep:
-	dh_auto_configure -- --docdir \$${prefix}/share/doc/libxml2 --enable-rebuild-docs --without-python
+	dh_auto_configure -- --with-docs --docdir \$${prefix}/share/doc/libxml2 --enable-rebuild-docs --with-python=no
 
 doconfigure-%:
-	dh_auto_configure --builddirectory=builddir/$(*) -- $(CONFIGURE_FLAGS)
+	export PYTHON=$(PYTHON) && dh_auto_configure --builddirectory=builddir/$(*) -- $(CONFIGURE_FLAGS) && unset PYTHON
 	touch $@
 
-doconfigure-main: CONFIGURE_FLAGS += --without-python --with-icu
-doconfigure-python%: CONFIGURE_FLAGS += --with-python=/usr/bin/$(*) --with-python-install-dir=/usr/lib/$(*)/dist-packages
+ifeq (,$(filter noi18n,$(DEB_BUILD_PROFILES)))
+doconfigure-main: CONFIGURE_FLAGS += --with-python=no --enable-static
+else
+doconfigure-main: CONFIGURE_FLAGS += --with-python=no --enable-static
+endif
+doconfigure-python%: CONFIGURE_FLAGS += --with-python
+	#PYTHON_VERSION=$(subst python,,$(*))
+	PYTHON=$(shell which $(*))
 
 dobuild-%: BUILD_DIR=builddir/$(*)
 dobuild-%: doconfigure-%
@@ -40,6 +52,7 @@ dobuild-python%: BUILD_DIR=builddir/main/$(*)
 dobuild-python%: BUILD_FLAGS=libxml2mod_la_LIBADD='$$(mylibs)' \
     PYTHON_INCLUDES='$(shell $(DEB_HOST_GNU_TYPE)-$(*)-config --includes)' \
     PYTHON_LIBS='$(shell $(DEB_HOST_GNU_TYPE)-$(*)-config --ldflags)'
+dobuild-python%: dobuild-%
 
 override_dh_auto_build-arch: $(TARGETS:%=dobuild-%)
 
@@ -53,18 +66,17 @@ execute_after_dh_auto_clean:
 	rm -rf builddir
 	rm -f doconfigure-*
 
-doinstall-main:
+doinstall-main: dobuild-%
 	dh_auto_install --builddirectory=builddir/main
-	mv debian/tmp/usr/share/aclocal/libxml.m4 debian/tmp/usr/share/aclocal/libxml2.m4
 
 override_dh_auto_install-arch: $(TARGETS:%=doinstall-%)
 	find debian/tmp -name *.la -delete
+ifneq ($(PY3VERS),)
+	rm -r debian/tmp/usr/lib/python*/site-packages/__pycache__
+	rm -f debian/tmp/usr/lib/python*/site-packages/*.a
+endif
 
-override_dh_auto_install-indep:
-	dh_auto_install -i
-	rm -v debian/tmp/usr/share/doc/libxml2/Copyright
-
-doinstall-python%:
+doinstall-python%: dobuild-python%
 	dh_auto_install --builddirectory=builddir/main/python$(*)
 
 override_dh_compress:
@@ -77,10 +89,33 @@ override_dh_install-arch:
 	dh_install -a
 	sed -i -e 's,/lib/$(DEB_HOST_MULTIARCH),/lib,' debian/libxml2-dev/usr/bin/xml2-config
 
-override_dh_makeshlibs:
-	dh_makeshlibs -plibxml2 -V 'libxml2 (>= 2.9.11)' -- -c4
-	dh_makeshlibs --remaining-packages
+DEB_SVERSION    := $(shell dpkg-parsechangelog -S Version | sed 's/-.*//')
+BUILD_DATE := $(shell dpkg-parsechangelog | sed -n -e 's/^Date: //p')
+source_dir := $(shell basename $(CURDIR))
+source_files = $(addprefix $(source_dir)/, \
+                 $(filter-out stamps .pc .git .gitignore debian test result builddir doconfigure-% , $(wildcard *)))
 
+override_dh_install-indep:
+	dh_install -i
+
+	mkdir -p debian/libxml2-source/usr/src/libxml2
+	tar -C .. -c -f - $(source_files) | tar -C debian/libxml2-source/usr/src/libxml2 -x -f -
+	-make -C debian/libxml2-source/usr/src/libxml2/$(source_dir) distclean
+	rm -rvf debian/libxml2-source/usr/src/libxml2/$(source_dir)/autom4te.cache
+	rm -rvf debian/libxml2-source/usr/src/libxml2/$(source_dir)/codegen/__pycache__
+	cd debian/libxml2-source/usr/src/libxml2 \
+	  && find -depth -newermt '$(BUILD_DATE)' -print0 | \
+	     xargs -0r touch --no-dereference --date='$(BUILD_DATE)' \
+	  && find $(source_dir) -type f -print0 | LC_ALL=C sort -z | \
+	     tar -v --null -T - -c --xz --mode=go=rX,u+rw,a-s \
+		--owner=0 --group=0 --numeric-owner --sort=name \
+		--xform='s=^[^/]*\/=libxml2-$(DEB_SVERSION)/=' \
+		-f libxml2-$(DEB_SVERSION).tar.xz
+	rm -rf debian/libxml2-source/usr/src/libxml2/$(source_dir)
+
+override_dh_makeshlibs:
+	dh_makeshlibs -plibxml2-16 -V 'libxml2-16 (>= 2.14.2)' -- -c4
+	dh_makeshlibs --remaining-packages
 
 #  I need to specify all the targets (build, binary, clean, etc) as
 #  otherwise dh may invoke them in a order that is not appropriate for the
@@ -93,3 +128,7 @@ clean build-arch binary-arch build-indep binary-indep:
 
 build: build-arch build-indep
 binary: binary-arch binary-indep
+
+dfsg-source-tree:
+	rm -rf test/
+	rm -rf result/

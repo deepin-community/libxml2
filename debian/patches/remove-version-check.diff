@@ -1,0 +1,22 @@
+--- a/parserInternals.c
++++ b/parserInternals.c
+@@ -74,6 +74,11 @@ xmlCheckVersion(int version) {
+ 
+     xmlInitParser();
+ 
++/*
++ * Disable the version check. Questionable by library handling of the 
++ * distribution.  See https://bugs.debian.org/1072012 for the rationale.
++*/
++#if 0
+     if ((myversion / 10000) != (version / 10000)) {
+ 	xmlPrintErrorMessage(
+ 		"Fatal: program compiled against libxml %d using libxml %d\n",
+@@ -83,6 +88,7 @@ xmlCheckVersion(int version) {
+ 		"Warning: program compiled against libxml %d using older %d\n",
+ 		(version / 100), (myversion / 100));
+     }
++#endif
+ }
+ 
+ 

@@ -1,0 +1,4 @@
+# The missing files are HTML api manual generated from source, regeneration
+# of these HTMLs requires dependency on: xsltproc, docbook-xsl, python3-libxml2
+source-is-missing
+invalid-profile-name-in-source-relation
