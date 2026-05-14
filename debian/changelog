@@ -3,6 +3,17 @@ libxml2 (2.15.2+dfsg-0.1) unstable; urgency=high
   * Non-maintainer upload.
   * New upstream bug fix release.
     Security issues:
+    - CVE-2025-9714 fix: Uncontrolled recursion in XPath evaluation.
+      Up to and including version 2.9.14, XPath processing functions
+      xmlXPathRunEval, xmlXPathCtxtCompile, and xmlXPathEvalExpr were
+      resetting recursion depth to zero before making potentially recursive
+      calls. Closes: #1112597.
+    - CVE-2025-8732 fix: Uncontrolled recursion in xmlParseSGMLCatalog.
+      The xmlParseSGMLCatalog function within the xmlcatalog component
+      exhibits uncontrolled recursion when processing specially crafted
+      SGML catalog files.
+    - CVE-2025-49795 fix: NULL pointer dereference in xmlSchematronFormatReport
+      when processing XPath XML expressions.
     - CVE-2026-1757 fix: Memory leak in xmllint Shell - shell.c
     - CVE-2026-0990 fix: Prevent infinite recursion in
       xmlCatalogListXMLResolve. Closes: #1125695.
