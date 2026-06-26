@@ -38,3 +38,4 @@ CVE-2026-0989.patch
 0038-fix-memory-leak-in-issue-1054.patch
 0039-schematron-fix-additional-memory-leaks-on-error-path.patch
 0040-catalog-fix-stack-overflow-from-self-referencing-SGM.patch
+CVE-2026-6653.patch

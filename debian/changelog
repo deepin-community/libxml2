@@ -1,3 +1,14 @@
+libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin1) unstable; urgency=medium
+
+  * Fix CVE-2026-6653: entity amplification check rework
+    - Rework entity amplification check to fix billion-laughs attack
+    - Limit document size after entity substitution to 10x before
+      expansion
+    - Add saturation arithmetic to prevent 32-bit integer overflow
+    - Enable entity amplification check even when XML_PARSE_HUGE is set
+
+ -- lichenggang <lichenggang@deepin.org>  Fri, 26 Jun 2026 22:29:41 +0800
+
 libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3) trixie; urgency=high
 
   * Non-maintainer upload.
