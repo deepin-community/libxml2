@@ -1,3 +1,11 @@
+libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u2deepin1) unstable; urgency=medium
+
+  * Fix CVE-2026-6653: Use After Free in xmlParseInternalSubset causing
+    denial of service via maliciously crafted XML input with improper
+    entity resolution handling.
+
+ -- lichenggang <lichenggang@deepin.org>  Fri, 26 Jun 2026 18:23:25 +0800
+
 libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u2) trixie; urgency=high
 
   * Non-maintainer upload.
