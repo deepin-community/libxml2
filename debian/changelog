@@ -4,6 +4,11 @@ libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin2) unstable; urgency=medium
     xmlSnprintfElements in valid.c   Upstream:
     https://gitlab.gnome.org/GNOME/libxml2/-
     /commit/d1686f91dbda141a752200419d35639fd6b38340
+  * fix(cve): CVE-2026-86144 (medium) - fix(xinclude): propagate
+    parseFlags in xmlXIncludeProcess and xmlXIncludeProcessTree
+    Upstream:
+    https://github.com/GNOME/libxml2/commit/b63cd517afecb76582dd9488c55e
+    54ceaf50de61
 
  -- deepin-ci-robot <packages@deepin.org>  Sun, 06 Sep 2026 10:22:28 +0800
 
