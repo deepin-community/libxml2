@@ -1,3 +1,12 @@
+libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin2) unstable; urgency=medium
+
+  * fix(cve): CVE-2026-86140 (high) - fix: add bounds checks to
+    xmlSnprintfElements in valid.c   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/d1686f91dbda141a752200419d35639fd6b38340
+
+ -- deepin-ci-robot <packages@deepin.org>  Sun, 06 Sep 2026 10:22:28 +0800
+
 libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin1) unstable; urgency=medium
 
   * Fix CVE-2026-6653: entity amplification check rework
