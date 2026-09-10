@@ -8,6 +8,10 @@ libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
     xmlDictAddQString in dict.c   Upstream:
     https://gitlab.gnome.org/GNOME/libxml2/-
     /commit/a4cba4b5b5a8c42e155ed42d2d2a44955465a2e4.patch
+  * fix(cve): CVE-2026-74860 (high) - [PATCH] python: Do not decref
+    string after adding to the list   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/f41e1865781f74d1cadfe2fbdfeefed946026f12.patch
 
  -- deepin-ci-robot <packages@deepin.org>  Thu, 10 Sep 2026 21:36:07 +0800
 
