@@ -1,3 +1,12 @@
+libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
+
+  * fix(cve): CVE-2026-86142 (medium) - xpointer: Check overflow in
+    xmlXPtrEvalXPtrPart   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/6b3a736c0edc74ceec3d82f5252499d7911b3a58.patch
+
+ -- deepin-ci-robot <packages@deepin.org>  Thu, 10 Sep 2026 21:36:07 +0800
+
 libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin2) unstable; urgency=medium
 
   * fix(cve): CVE-2026-86140 (high) - fix: add bounds checks to
