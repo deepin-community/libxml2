@@ -4,6 +4,10 @@ libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
     xmlXPtrEvalXPtrPart   Upstream:
     https://gitlab.gnome.org/GNOME/libxml2/-
     /commit/6b3a736c0edc74ceec3d82f5252499d7911b3a58.patch
+  * fix(cve): CVE-2026-86138 (medium) - fix: add overflow checks to
+    xmlDictAddQString in dict.c   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/a4cba4b5b5a8c42e155ed42d2d2a44955465a2e4.patch
 
  -- deepin-ci-robot <packages@deepin.org>  Thu, 10 Sep 2026 21:36:07 +0800
 
