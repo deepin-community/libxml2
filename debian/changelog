@@ -24,6 +24,10 @@ libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
     length after null checking   Upstream:
     https://gitlab.gnome.org/GNOME/libxml2/-
     /commit/e89a8aae4c9b40cdafcf66b3f9e57c62db37bb55
+  * fix(cve): CVE-2026-86143 (medium) - xmlIO: Check for int overflow
+    before calling writecallback   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/90f293ba74d28b1d570920382e707586f68ebf35.patch
 
  -- deepin-ci-robot <packages@deepin.org>  Thu, 10 Sep 2026 21:36:07 +0800
 
