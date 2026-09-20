@@ -28,6 +28,10 @@ libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
     before calling writecallback   Upstream:
     https://gitlab.gnome.org/GNOME/libxml2/-
     /commit/90f293ba74d28b1d570920382e707586f68ebf35.patch
+  * fix(cve): CVE-2026-76781 (medium) - catalog: Fix NULL deref for
+    nextCatalog without 'catalog' attribute   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/c63248941708bc1d2e3a4292954593312212f6ca.patch
 
  -- deepin-ci-robot <packages@deepin.org>  Thu, 10 Sep 2026 21:36:07 +0800
 
