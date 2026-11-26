@@ -1,3 +1,22 @@
+libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin4) unstable; urgency=medium
+
+  * fix(cve): CVE-2026-137082 (medium) - parser: Reset attribute
+    allocation state in xmlCtxtReset   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-/issues/1177
+  * fix(cve): CVE-2026-137068 (medium) - xmlreader: Fix use-after-free
+    in faketext cleanup   Upstream:
+    https://github.com/GNOME/libxml2/pull/44
+  * fix(cve): CVE-2026-137072 (medium) - Fix use-after-free bugs when
+    calling xmlTextReaderClose() before xmlFreeTextReader() on post-
+    validating parser   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-
+    /commit/c50196c13d348025a4843305902bb37df64bae36
+  * fix(cve): CVE-2026-137067 (medium) - xmlreader: Free per-document
+    state when reusing a reader   Upstream:
+    https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/503
+
+ -- deepin-ci-robot <packages@deepin.org>  Thu, 26 Nov 2026 09:10:38 +0800
+
 libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3deepin3) unstable; urgency=medium
 
   * fix(cve): CVE-2026-86142 (medium) - xpointer: Check overflow in
